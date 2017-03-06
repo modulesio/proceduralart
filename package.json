@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/modulesio/proceduralart#readme",
   "dependencies": {
-    "alea": "0.0.9"
+    "alea": "0.0.9",
+    "canvas": "^1.6.4"
   }
 }

@@ -66,6 +66,8 @@ function setPixelRGB(x, y, r, g, b, alpha) {
 }
 
 function drawBrightStar(x,y,size) {
+  size = Math.min(size, x, y, scene.width - x, scene.height - y);
+
 	applyBuffer();
 	scene.context.fillStyle = "rgba(255,255,255,0.03)";	
 	scene.context.beginPath();
@@ -138,6 +140,8 @@ function drawStarships(x, y) {
 }
 
 function drawSun(x, y, size) {
+  size = Math.min(size, x, y, scene.width - x, scene.height - y);
+
 	scene.context.fillStyle = "rgba(255,255,255,0.2)";
 	scene.context.beginPath();	
 	scene.context.arc(x,y,size * 1.1,0,2*Math.PI);
@@ -458,6 +462,7 @@ function drawPlanet() {
 	var x = getInt(scene.width, getPivot('planetx'));
 	var y = getInt(scene.height / 2, getPivot('planety'));
 	var radius = 30 + 100 * Math.pow(getFloat(getPivot('planetradius')), 2);
+  radius = Math.min(radius, x, y, scene.width - x, scene.height - y);
 
 	var planetsaturation = getFloat(getPivot('planetsaturation'));
 	var continentsize = 0.5 + 1.5 * getFloat(getPivot('continentsize'));

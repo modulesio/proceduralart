@@ -2,7 +2,9 @@ const Canvas = require('canvas');
 const planet = require('./planet');
 
 const makePlanet = ({seed, size = 256, mode = 'icon'}) => {
-  const canvas = new Canvas(size, size);
+  const width = size;
+  const height = mode === 'icon' ? width : (width / 4);
+  const canvas = new Canvas(width, height);
 
   planet.draw(canvas, {
     seed,

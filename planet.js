@@ -66,7 +66,11 @@ function setPixelRGB(x, y, r, g, b, alpha) {
 }
 
 function drawBrightStar(x,y,size) {
-  size = Math.min(size, x, y, scene.width - x, scene.height - y);
+  if (scene.mode === 'skybox') {
+    x = x % (scene.width / 4);
+    y = y % (scene.height / 3);
+    size = Math.min(size, x, y, scene.width - x, scene.height - y);
+  }
 
 	applyBuffer();
 	scene.context.fillStyle = "rgba(255,255,255,0.03)";	
@@ -100,6 +104,10 @@ function drawBrightStar(x,y,size) {
 }
 
 function drawStarships(x, y) {
+  if (scene.mode === 'skybox') {
+    x = x % (scene.width / 4);
+    y = y % (scene.height / 3);
+  }
 	var dx = getInt(3, getPivot('starshipdir')) - 1;
 	var dy = dx == 0 ? 1 : 0;
 	var dx2 = dy;
@@ -140,7 +148,11 @@ function drawStarships(x, y) {
 }
 
 function drawSun(x, y, size) {
-  size = Math.min(size, x, y, scene.width - x, scene.height - y);
+  if (scene.mode === 'skybox') {
+    x = x % (scene.width / 4);
+    y = y % (scene.height / 3);
+    size = Math.min(size, x, y, scene.width - x, scene.height - y);
+  }
 
 	scene.context.fillStyle = "rgba(255,255,255,0.2)";
 	scene.context.beginPath();	
@@ -337,11 +349,19 @@ function terrain1at(x, igonrebumps) {
 		}
 	}
 
-	return scene.height * (0.75 - 0.5 * v);
+  if (scene.mode === 'icon') {
+    return scene.height * (1 - 0.5 * v);
+  } else {
+    return scene.height * (0.5 - 0.25 * v);
+  }
 }
 
 function terrain2at(x) {
-	return scene.height * (0.5 + 0.25 * (1 - simplex(x / 600, scene.noiseseed + 100, 4, 0, 1) - 0.3 * Math.pow((x - scene.width / 2) / (scene.width / 2), 2)));	
+  if (scene.mode === 'icon') {
+    return scene.height * (0.75 + 0.25 * (1 - simplex(x / 600, scene.noiseseed + 100, 4, 0, 1) - 0.3 * Math.pow((x - scene.width / 2) / (scene.width / 2), 2)));
+  } else {
+    return scene.height * (0.25 + 1/3 * (1 - simplex(x / 600, scene.noiseseed + 100, 4, 0, 1) - 0.3 * Math.pow((x - scene.width / 2) / (scene.width / 2), 2)));
+  }
 }
 
 function drawWater() {
@@ -462,7 +482,11 @@ function drawPlanet() {
 	var x = getInt(scene.width, getPivot('planetx'));
 	var y = getInt(scene.height / 2, getPivot('planety'));
 	var radius = 30 + 100 * Math.pow(getFloat(getPivot('planetradius')), 2);
-  radius = Math.min(radius, x, y, scene.width - x, scene.height - y);
+  if (scene.mode === 'skybox') {
+    x = x % (scene.width / 4);
+    y = y % (scene.height / 3);
+    radius = Math.min(radius, x, y, scene.width - x, scene.height - y);
+  }
 
 	var planetsaturation = getFloat(getPivot('planetsaturation'));
 	var continentsize = 0.5 + 1.5 * getFloat(getPivot('continentsize'));
@@ -630,25 +654,26 @@ function drawTrees() {
 	}
 }
 
-function draw(canvas, seedText) {
-	scene.seed = seedText ? getSeed(seedText) : getRandomSeed();
+function draw(canvas, {seed, mode = 'icon'}) {
+  scene.seed = seed ? getSeed(seed) : getRandomSeed();
+  scene.mode = mode;
 
-	setupCanvas(canvas);
+  setupCanvas(canvas);
 
-	setupBuffer();
+  setupBuffer();
 
-	drawSky();
-	drawTerrain();
-	
-	if (getInt(100, getPivot('hastrees')) < 70) {
-		drawTrees();		
-	}
+  drawSky();
+  drawTerrain();
 
-	if (getInt(100, getPivot('hasriver')) < 70) {
-		drawWater();	
-	}
+  if (getInt(100, getPivot('hastrees')) < 70) {
+    drawTrees();
+  }
 
-	applyBuffer();
+  if (getInt(100, getPivot('hasriver')) < 70) {
+    drawWater();
+  }
+
+  applyBuffer();
 }
 
 const api = {

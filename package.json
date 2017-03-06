@@ -10,7 +10,7 @@
     "type": "git",
     "url": "git+https://github.com/modulesio/proceduralart.git"
   },
-  "author": "",
+  "author": "Avaer Kazmer <a@modules.io>",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/modulesio/proceduralart/issues"

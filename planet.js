@@ -67,8 +67,6 @@ function setPixelRGB(x, y, r, g, b, alpha) {
 
 function drawBrightStar(x,y,size) {
   if (scene.mode === 'skybox') {
-    x = x % (scene.width / 4);
-    y = y % (scene.height / 3);
     size = Math.min(size, x, y, scene.width - x, scene.height - y);
   }
 
@@ -104,10 +102,6 @@ function drawBrightStar(x,y,size) {
 }
 
 function drawStarships(x, y) {
-  if (scene.mode === 'skybox') {
-    x = x % (scene.width / 4);
-    y = y % (scene.height / 3);
-  }
 	var dx = getInt(3, getPivot('starshipdir')) - 1;
 	var dy = dx == 0 ? 1 : 0;
 	var dx2 = dy;
@@ -149,8 +143,6 @@ function drawStarships(x, y) {
 
 function drawSun(x, y, size) {
   if (scene.mode === 'skybox') {
-    x = x % (scene.width / 4);
-    y = y % (scene.height / 3);
     size = Math.min(size, x, y, scene.width - x, scene.height - y);
   }
 
@@ -352,7 +344,7 @@ function terrain1at(x, igonrebumps) {
   if (scene.mode === 'icon') {
     return scene.height * (1 - 0.5 * v);
   } else {
-    return scene.height * (0.5 - 0.25 * v);
+    return scene.height * (1 - 0.25 * v);
   }
 }
 
@@ -360,7 +352,7 @@ function terrain2at(x) {
   if (scene.mode === 'icon') {
     return scene.height * (0.75 + 0.25 * (1 - simplex(x / 600, scene.noiseseed + 100, 4, 0, 1) - 0.3 * Math.pow((x - scene.width / 2) / (scene.width / 2), 2)));
   } else {
-    return scene.height * (0.25 + 1/3 * (1 - simplex(x / 600, scene.noiseseed + 100, 4, 0, 1) - 0.3 * Math.pow((x - scene.width / 2) / (scene.width / 2), 2)));
+    return scene.height * (0.875 + 0.125 * (1 - simplex(x / 600, scene.noiseseed + 100, 4, 0, 1) - 0.3 * Math.pow((x - scene.width / 2) / (scene.width / 2), 2)));
   }
 }
 

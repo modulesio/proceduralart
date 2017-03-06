@@ -1,6 +1,11 @@
+const scene = require('./scene');
+const noise = require('./perlin');
+const Alea = require('alea');
+
+const api = {};
 
 // http://stackoverflow.com/a/1099670/895589
-function getQueryParams(qs) {
+api.getQueryParams = function(qs) {
     qs = qs.split('+').join(' ');
 
     var params = {},
@@ -21,7 +26,7 @@ function getQueryParams(qs) {
  * OR 
  * h, s, v
 */
-function getRGB(h, s, v) {
+api.getRGB = function(h, s, v) {
     while (h > 1) h -= 1;
     while (h < 0) h += 1;
 
@@ -50,19 +55,24 @@ function getRGB(h, s, v) {
 }
 
 // General random & noise functions
-function getRandomSeed() {
+api.getRandomSeed = function() {
     return Math.round(Math.random() * 9007199254740991);
 }
 
-function getInt(max, pivot) {
+api.getSeed = function(text) {
+  const rng = new Alea(text);
+  return Math.round(rng() * 9007199254740991);
+}
+
+api.getInt = function(max, pivot) {
 	return (scene.seed % pivot) % max;
 }
 
-function getBool(pivot) {
-	return getInt(2, pivot) == 1;
+api.getBool = function(pivot) {
+	return api.getInt(2, pivot) == 1;
 }
 
-function getFloat(pivot, from, to) {
+api.getFloat = function(pivot, from, to) {
 	if (!from)
 		from = 0;
 	if (!to)
@@ -71,12 +81,12 @@ function getFloat(pivot, from, to) {
 	return from + (to - from) * x;
 }
 
-function getPivot(text) {
-	var myrng = new Math.seedrandom(text);
+api.getPivot = function(text) {
+	var myrng = new Alea(text);
 	return Math.round(myrng() * 100000000);
 }
 
-function simplex(x, y, octaves, lowercap, uppercap) {
+api.simplex = function(x, y, octaves, lowercap, uppercap) {
 	if (!octaves) octaves = 6;
 	if (!lowercap) lowercap = 0;
 	if (!uppercap) uppercap = 1;
@@ -94,8 +104,10 @@ function simplex(x, y, octaves, lowercap, uppercap) {
 	return (v - lowercap) / (uppercap - lowercap);
 }
 
-function getColorString(color, alpha) {
+api.getColorString = function(color, alpha) {
 	if (alpha === undefined) 
 		alpha = 1;
 	return 'rgba(' + color.r + ', ' + color.g + ', ' + color.b + ', ' + alpha + ')';
 }
+
+module.exports = api;

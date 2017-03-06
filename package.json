@@ -1,0 +1,22 @@
+{
+  "name": "proceduralart",
+  "version": "0.0.1",
+  "description": "Every planet procedural",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/modulesio/proceduralart.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/modulesio/proceduralart/issues"
+  },
+  "homepage": "https://github.com/modulesio/proceduralart#readme",
+  "dependencies": {
+    "alea": "0.0.9"
+  }
+}

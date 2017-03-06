@@ -1,4 +1,16 @@
-var scene = {};
+const scene = require('./scene');
+const noise = require('./perlin');
+const {
+  getSeed,
+  getRandomSeed,
+  getFloat,
+  getPivot,
+  getBool,
+  getInt,
+  simplex,
+  getRGB,
+  getColorString,
+} = require('./helpers');
 
 function getHue(pivot) {
 	return (getBool(pivot + 1) ? scene.skyhue : scene.terrainhue) + 0.1 * (getInt(3, pivot) - 1);
@@ -147,7 +159,7 @@ function drawClouds() {
 	}
 }
 
-function drawAtlas () {
+/* function drawAtlas () {
 	var x = scene.width * (0.2 + 0.6 * getFloat(getPivot('atlasx')));
 	var y = scene.height * (0.1 + 0.3 * getFloat(getPivot('atlasy')));
 	var size = 30;
@@ -198,7 +210,7 @@ function drawAtlas () {
 	scene.context.fill();
 
 	setupBuffer();
-}
+} */
 
 function drawSky() {
 	scene.skyhue = getFloat(getPivot('skyhue'));
@@ -281,9 +293,9 @@ function drawSky() {
 	}
 
 	// Atlas
-	if (getInt(100, getPivot('hasAtllas')) < 40) {
+	/* if (getInt(100, getPivot('hasAtllas')) < 40) {
 		drawAtlas();
-	}
+	} */
 	// Clouds
 	if (!scene.night) {
 		drawClouds();
@@ -613,8 +625,8 @@ function drawTrees() {
 	}
 }
 
-function draw(canvas, seed) {
-	scene.seed = seed;
+function draw(canvas, seedText) {
+	scene.seed = seedText ? getSeed(seedText) : getRandomSeed();
 
 	setupCanvas(canvas);
 
@@ -633,3 +645,9 @@ function draw(canvas, seed) {
 
 	applyBuffer();
 }
+
+const api = {
+  draw,
+};
+
+module.exports = api;

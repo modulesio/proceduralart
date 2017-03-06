@@ -1,6 +1,6 @@
 {
   "name": "proceduralart",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Every planet procedural",
   "main": "index.js",
   "scripts": {

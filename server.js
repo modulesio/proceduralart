@@ -40,6 +40,5 @@ if (!module.parent) {
   }
 
   const canvas = makePlanet(opts);
-console.warn(opts);
   canvas.pngStream().pipe(process.stdout);
 }

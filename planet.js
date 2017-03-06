@@ -337,11 +337,11 @@ function terrain1at(x, igonrebumps) {
 		}
 	}
 
-	return scene.height * (1 - 0.5 * v);
+	return scene.height * (0.75 - 0.5 * v);
 }
 
 function terrain2at(x) {
-	return scene.height * (0.75 + 0.25 * (1 - simplex(x / 600, scene.noiseseed + 100, 4, 0, 1) - 0.3 * Math.pow((x - scene.width / 2) / (scene.width / 2), 2)));	
+	return scene.height * (0.5 + 0.25 * (1 - simplex(x / 600, scene.noiseseed + 100, 4, 0, 1) - 0.3 * Math.pow((x - scene.width / 2) / (scene.width / 2), 2)));	
 }
 
 function drawWater() {
